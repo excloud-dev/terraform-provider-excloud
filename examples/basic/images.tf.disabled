@@ -1,0 +1,8 @@
+# Rename to images.tf to try a live API-backed data source during plan/apply.
+# Requires Excloud credentials.
+
+data "excloud_compute_images" "all" {}
+
+output "image_names" {
+  value = [for image in data.excloud_compute_images.all.images : image.name]
+}
