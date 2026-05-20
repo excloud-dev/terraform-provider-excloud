@@ -14,7 +14,7 @@ The Excloud provider manages Excloud compute resources through the Excloud API.
 terraform {
   required_providers {
     excloud = {
-      source  = "excloud-in/excloud"
+      source  = "excloud-dev/excloud"
       version = "0.1.0"
     }
   }

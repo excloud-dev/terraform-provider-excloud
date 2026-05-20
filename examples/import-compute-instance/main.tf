@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     excloud = {
-      source = "excloud-in/excloud"
+      source = "excloud-dev/excloud"
     }
   }
 }

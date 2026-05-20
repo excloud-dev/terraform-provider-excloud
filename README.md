@@ -25,7 +25,7 @@ Terraform provider for Excloud.
 terraform {
   required_providers {
     excloud = {
-      source  = "excloud-in/excloud"
+      source  = "excloud-dev/excloud"
       version = "~> 0.1"
     }
   }
@@ -70,7 +70,7 @@ Create a Terraform CLI config file, for example `/tmp/excloud.tfrc`:
 ```hcl
 provider_installation {
   dev_overrides {
-    "excloud-in/excloud" = "/absolute/path/to/terraform-provider-excloud"
+    "excloud-dev/excloud" = "/absolute/path/to/terraform-provider-excloud"
   }
   direct {}
 }
