@@ -87,3 +87,17 @@ terraform state rm excloud_compute_instance.demo
 ```
 
 Only do this when you are sure the second workspace should own the VM.
+
+## `excloud_volume`, `excloud_snapshot`, and object-storage resources
+
+These resources support straightforward import by their remote identifiers:
+
+```bash
+terraform import excloud_volume.data <volume_id>
+terraform import excloud_snapshot.data <snapshot_id>
+terraform import excloud_bucket.assets <bucket_name>
+terraform import excloud_bucket_access_key.automation <access_key_id>
+terraform import excloud_dns_zone.example <zone_name>
+```
+
+For `excloud_bucket_access_key`, importing cannot recover `secret_access_key`; Excloud returns that value only during key creation.

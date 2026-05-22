@@ -26,6 +26,12 @@ Live data-source tests:
 TF_ACC=1 go test -tags=acc ./internal/provider -run TestAccDataSources -count=1
 ```
 
+DNS data-source tests are gated separately because they require a DNS API token/policy:
+
+```bash
+TF_ACC=1 TF_ACC_DNS=1 go test -tags=acc ./internal/provider -run TestAccDNSDataSources -count=1
+```
+
 Live create/destroy tests for low-cost resources:
 
 ```bash
@@ -35,7 +41,14 @@ TF_ACC=1 TF_ACC_CREATE=1 go test -tags=acc ./internal/provider -run 'TestAcc(SSH
 Billable create/destroy tests:
 
 ```bash
-TF_ACC=1 TF_ACC_CREATE=1 TF_ACC_BILLABLE=1 go test -tags=acc ./internal/provider -run 'TestAcc(Volume|PublicIPv4)' -count=1
+TF_ACC=1 TF_ACC_CREATE=1 TF_ACC_BILLABLE=1 go test -tags=acc ./internal/provider -run 'TestAcc(Volume|PublicIPv4|Snapshot)' -count=1
+```
+
+Object-storage and DNS create/destroy tests:
+
+```bash
+TF_ACC=1 TF_ACC_CREATE=1 go test -tags=acc ./internal/provider -run 'TestAccBucket' -count=1
+TF_ACC=1 TF_ACC_CREATE=1 TF_ACC_DNS=1 go test -tags=acc ./internal/provider -run TestAccDNSZoneAndRecord -count=1
 ```
 
 The tests build a local `terraform-provider-excloud` binary, use Terraform dev overrides, and remove the binary during cleanup.

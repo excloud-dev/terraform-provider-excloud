@@ -2,9 +2,15 @@
 
 ## Authentication failures
 
-The provider reads credentials from provider attributes first, then environment variables. `.env` loading is disabled by default for production safety.
+The provider reads credentials in this order:
 
-For local development, either export environment variables directly or enable `.env` loading explicitly:
+1. Provider attributes (`api_key`, `access_token`, `id_token`, `account_id`, `org_id`).
+2. Environment variables (`EXCLOUD_ACCESS_TOKEN`, `ACCESS_TOKEN`, `EXCLOUD_ID_TOKEN`, `ACCOUNT_ID`, `ORG_ID`, etc.).
+3. `~/.exc/config`, as written by the `exc` CLI.
+
+If you have run `exc login` and selected an account/organization, an empty `provider "excloud" {}` block should work for all resources and data sources. The fallback uses `default_acc`, `default_org`, the selected account `id_token`, and the selected org `access_token`.
+
+`.env` loading is disabled by default for production safety. For local development, either export environment variables directly or enable `.env` loading explicitly:
 
 ```hcl
 provider "excloud" {

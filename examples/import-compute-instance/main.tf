@@ -6,6 +6,7 @@ terraform {
   }
 }
 
+# Uses provider attributes, environment variables, or ~/.exc/config from `exc login`.
 provider "excloud" {}
 
 # Minimal config shape for importing an existing VM.

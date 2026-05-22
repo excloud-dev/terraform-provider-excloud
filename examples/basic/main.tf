@@ -2,14 +2,14 @@ terraform {
   required_providers {
     excloud = {
       source  = "excloud-dev/excloud"
-      version = "0.0.1"
+      version = "0.2.0"
     }
   }
 }
 
 provider "excloud" {
-  # Optional. If omitted, the provider/SDK will fall back to API_KEY/ORG_ID,
-  # EXCLOUD_* env vars, or ~/.exc/config where supported by the generated SDK.
+  # Optional. If omitted, the provider falls back to environment variables or
+  # ~/.exc/config from `exc login`, including the selected account and org.
   # api_key = var.excloud_api_key
   # org_id  = var.excloud_org_id
 
