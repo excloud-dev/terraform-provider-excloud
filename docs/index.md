@@ -15,7 +15,7 @@ terraform {
   required_providers {
     excloud = {
       source  = "excloud-dev/excloud"
-      version = "0.2.0"
+      version = "0.2.1"
     }
   }
 }
