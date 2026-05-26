@@ -51,6 +51,12 @@ TF_ACC=1 TF_ACC_CREATE=1 go test -tags=acc ./internal/provider -run 'TestAccBuck
 TF_ACC=1 TF_ACC_CREATE=1 TF_ACC_DNS=1 go test -tags=acc ./internal/provider -run TestAccDNSZoneAndRecord -count=1
 ```
 
+IAM create/destroy tests:
+
+```bash
+TF_ACC=1 TF_ACC_CREATE=1 go test -tags=acc ./internal/provider -run TestAccIAMServiceAccountPolicyBinding_basic -count=1
+```
+
 The tests build a local `terraform-provider-excloud` binary, use Terraform dev overrides, and remove the binary during cleanup.
 
 ## Cleanup helper

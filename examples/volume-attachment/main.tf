@@ -70,6 +70,6 @@ output "attachment_state" {
   value = excloud_volume_attachment.data.attachment_state
 }
 
-output "device_path" {
-  value = excloud_volume_attachment.data.device_path
+output "volume_name" {
+  value = excloud_volume_attachment.data.name
 }

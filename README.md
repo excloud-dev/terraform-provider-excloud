@@ -1,8 +1,8 @@
 # Excloud Terraform Provider
 
-Terraform provider for Excloud compute, storage, networking, and object-storage resources.
+Terraform provider for Excloud compute, storage, networking, object-storage, DNS, and IAM resources.
 
-Use it to provision virtual machines, block volumes, snapshots, public IPv4 reservations, security groups, SSH keys, DNS zones, and S3-compatible buckets from Terraform.
+Use it to provision virtual machines, block volumes, snapshots, public IPv4 reservations, security groups, SSH keys, DNS zones, S3-compatible buckets, and IAM service accounts and policies from Terraform.
 
 ## Resources
 
@@ -19,6 +19,9 @@ Use it to provision virtual machines, block volumes, snapshots, public IPv4 rese
 - `excloud_bucket_access_key`
 - `excloud_dns_zone`
 - `excloud_dns_record`
+- `excloud_iam_service_account`
+- `excloud_iam_policy`
+- `excloud_iam_policy_binding`
 
 ## Data sources
 
@@ -29,6 +32,9 @@ Use it to provision virtual machines, block volumes, snapshots, public IPv4 rese
 - `excloud_buckets`
 - `excloud_bucket_usage`
 - `excloud_dns_zones`
+- `excloud_iam_service_accounts`
+- `excloud_iam_policies`
+- `excloud_iam_policy_bindings`
 
 ## Usage
 
@@ -37,7 +43,7 @@ terraform {
   required_providers {
     excloud = {
       source  = "excloud-dev/excloud"
-      version = "~> 0.3"
+      version = "~> 0.4"
     }
   }
 }
@@ -52,7 +58,7 @@ provider "excloud" {
 
 ## Authentication
 
-The provider uses the same credentials for compute, buckets, DNS, and all other resources/data sources. Resolution order is:
+The provider uses the same credentials for compute, buckets, DNS, IAM, and all other resources/data sources. Resolution order is:
 
 1. Explicit provider attributes.
 2. Environment variables.
@@ -66,6 +72,7 @@ Supported attributes and corresponding environment variables:
 - `org_id` / `ORG_ID` / `EXCLOUD_ORG_ID` / `~/.exc/config` `default_org`
 - `compute_base_url` / `EXCLOUD_COMPUTE_BASE_URL`
 - `buckets_base_url` / `EXCLOUD_BUCKETS_BASE_URL`
+- `iam_base_url` / `EXCLOUD_IAM_BASE_URL`
 - `dns_base_url` / `EXCLOUD_DNS_BASE_URL`
 
 ## Example
@@ -102,6 +109,28 @@ resource "excloud_dns_record" "www" {
   type      = "A"
   value     = "203.0.113.10"
   ttl       = 3600
+}
+
+resource "excloud_iam_service_account" "worker" {
+  name = "terraform-worker"
+}
+
+resource "excloud_iam_policy" "compute_read" {
+  name = "terraform-compute-read"
+
+  policy_json = jsonencode({
+    Version = "2024-03-05"
+    Statements = [{
+      Effect   = "Allow"
+      Action   = ["compute:instance:list"]
+      Resource = ["*"]
+    }]
+  })
+}
+
+resource "excloud_iam_policy_binding" "worker_compute_read" {
+  policy_id          = tonumber(excloud_iam_policy.compute_read.id)
+  service_account_id = tonumber(excloud_iam_service_account.worker.id)
 }
 ```
 

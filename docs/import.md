@@ -101,3 +101,19 @@ terraform import excloud_dns_zone.example <zone_name>
 ```
 
 For `excloud_bucket_access_key`, importing cannot recover `secret_access_key`; Excloud returns that value only during key creation.
+
+## IAM resources
+
+IAM service accounts and policies import by their remote IDs:
+
+```bash
+terraform import excloud_iam_service_account.worker <service_account_id>
+terraform import excloud_iam_policy.compute_read <policy_id>
+```
+
+IAM policy bindings import by target kind, target ID, and policy ID:
+
+```bash
+terraform import excloud_iam_policy_binding.worker_compute_read service_account:<service_account_id>:<policy_id>
+terraform import excloud_iam_policy_binding.account_compute_read account:<account_id>:<policy_id>
+```
